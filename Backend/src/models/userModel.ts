@@ -35,10 +35,12 @@ const userSchema = new mongoose.Schema<userSchemaInterface>({
     isVerified: Boolean,
 },{timestamps: true})
 
-export const userSchemaValidation: z.ZodObject = z.object({
+export const userModel = mongoose.model("users", userSchema);
+
+export const registerUserSchema: z.ZodObject = z.object({
     username: z.string(),
     email: z.email(),
     password: z.string(),
-    profileImage: z.string(),
-    bio: z.string(),
+    profileImage: z.string().optional(),
+    bio: z.string().optional(),
 })
