@@ -22,6 +22,8 @@ export async function registerUserController(req: Request, res: Response) {
     })
   }
 
+  const otpExpiryTime = new Date(Date.now() + 5 * 60 * 1000);
+
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const newUser = await userModel.create({
@@ -31,6 +33,7 @@ export async function registerUserController(req: Request, res: Response) {
     profileImage,
     bio,
     otp: generateOtp(),
+    otpExpiry: otpExpiryTime,
     isVerified: false,
   })
 
@@ -44,4 +47,29 @@ export async function registerUserController(req: Request, res: Response) {
     }
   })
 
+}
+
+export async function verifyController(req: Request, res: Response){
+  const {email, otp} = req.body
+
+  const user = await userModel.findOne({email})
+
+  if(!user){
+    return res.status(409).json({
+      message: "User doesnot exist",
+    })
+  }
+
+  if(otp != user.otp || Date.now() > user.otpExpiry.getTime()){
+    return res.status(400).json({
+      message: "OTP expired"
+    })
+  }
+
+  await userModel.findOneAndUpdate({email},{isVerified: true});
+
+  return res.status(200).json({
+    message: "User verified successfully",
+  })
+  
 }

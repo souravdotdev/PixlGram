@@ -9,6 +9,7 @@ interface userSchemaInterface{
     profileImage: string
     otp: number
     isVerified: boolean
+    otpExpiry: Date
 }
 
 const userSchema = new mongoose.Schema<userSchemaInterface>({
@@ -32,6 +33,7 @@ const userSchema = new mongoose.Schema<userSchemaInterface>({
     },
     bio: String,
     otp: Number,
+    otpExpiry: Date,
     isVerified: Boolean,
 },{timestamps: true})
 
