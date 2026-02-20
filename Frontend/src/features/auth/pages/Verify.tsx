@@ -24,7 +24,6 @@ const Verify = () => {
       );
 
       setAuthResponse(response);
-      console.log(response);
       setOtp("");
     } catch {
       setAuthResponse(null);

@@ -23,7 +23,6 @@ const Register = () => {
       },{withCredentials: true});
 
       setAuthResponse(response);
-      console.log(response);
       setEmail("");
       setPassword("");
       setUsername("");
