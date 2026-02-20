@@ -1,9 +1,9 @@
-import Register from './features/auth/pages/Register'
+import Login from './features/auth/pages/Login'
 
 const App = () => {
   return (
     <div>
-      <Register/>
+      <Login/>
     </div>
   )
 }
