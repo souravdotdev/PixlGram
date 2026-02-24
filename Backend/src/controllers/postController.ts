@@ -102,3 +102,28 @@ export async function likePostController(req: Request, res: Response){
         like
     })
 }
+
+export async function getFeedController(req: Request, res: Response){
+    const user = req.user;
+
+    const posts = await Promise.all((await postModel.find().populate("userId").lean())
+        .map(async (post: any) => {
+            const isLiked = await likeModel.findOne({
+                user: user?.username,
+                post: post._id
+            } as any)
+
+            post.isLiked = Boolean(isLiked)
+            return post
+        }))
+    if(!posts){
+        return res.status(400).json({
+            message: "No posts available"
+        })
+    }
+
+    return res.status(200).json({
+        message: "All posts fetched successfully",
+        posts
+    })
+}

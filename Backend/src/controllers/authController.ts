@@ -91,7 +91,7 @@ export async function loginController(req: Request, res: Response) {
     });
   }
 
-  const user = await userModel.findOne({ $or: [{ username }, { email }] });
+  const user = await userModel.findOne({ $or: [{ username }, { email }] }).select("+password");
 
   if (!user) {
     return res.status(409).json({
